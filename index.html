@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Values in Society | Digital Society</title>
+<style>
+:root{--ink:#172a27;--muted:#5e706b;--paper:#f5f4ee;--card:#fffefa;--line:#d9dfd7;--accent:#1f6655;--accent2:#d5e8d9;--warm:#e8b66a}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:#173d35;color:#f7f5ec;padding:clamp(2rem,6vw,5rem) max(1.2rem,calc((100vw - 1080px)/2))}
+.kicker{text-transform:uppercase;letter-spacing:.16em;font-size:.75rem;font-weight:700;color:#b9d7c6}
+h1{font-family:Georgia,serif;font-weight:500;letter-spacing:-.035em;line-height:1.02;font-size:clamp(2.5rem,7vw,5.4rem);max-width:850px;margin:.7rem 0 1rem}
+header p{max-width:720px;color:#e0ebe3;font-size:1.08rem}
+main{max-width:1080px;margin:auto;padding:2rem 1.2rem 5rem}.intro{display:grid;grid-template-columns:1.2fr .8fr;gap:1.2rem;margin-bottom:1.5rem}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:clamp(1.1rem,3vw,2rem);box-shadow:0 8px 28px #193b2b08}
+h2{font:500 clamp(1.5rem,3vw,2.2rem)/1.15 Georgia,serif;margin:.2rem 0 1rem}h3{margin:.2rem 0 .6rem;font-size:1.05rem}
+.small{font-size:.9rem;color:var(--muted)}.pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:.25rem .7rem;font-size:.78rem;color:var(--muted)}
+.values{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-top:1rem}
+.value{border-radius:14px;background:#f2f4ed;padding:1rem}.value b{display:block;margin-bottom:.3rem}.value span{font-size:.86rem;color:var(--muted)}
+form{display:grid;gap:1rem}.field label{display:block;font-weight:650;margin-bottom:.35rem}
+.plotgrid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.plotcard{border:1px solid var(--line);border-radius:16px;padding:1rem;background:#fff}
+.plotcard p{font-size:.9rem;color:var(--muted);margin:.3rem 0}.triangle{display:block;width:100%;max-width:420px;margin:.5rem auto;touch-action:manipulation;cursor:crosshair}
+.status{padding:.8rem 1rem;border-radius:10px;background:#eef3ec;color:#254b3d;min-height:3rem}.status.error{background:#fff0eb;color:#873c27}
+button{border:0;border-radius:999px;padding:.9rem 1.3rem;background:var(--accent);color:white;font:inherit;font-weight:700;cursor:pointer}button:disabled{opacity:.5;cursor:wait}
+.actions{display:flex;gap:.7rem;align-items:center;flex-wrap:wrap}.notice{font-size:.9rem;color:var(--muted)}
+footer{border-top:1px solid var(--line);margin-top:2rem;padding-top:1rem;color:var(--muted);font-size:.82rem}
+@media(max-width:760px){.intro,.plotgrid{grid-template-columns:1fr}.values{grid-template-columns:1fr}.panel{border-radius:15px}}
+</style></head><body>
+<header><div class="kicker">MIS20070 · Digital Society · Values exercise</div>
+<h1>Values in society: today and tomorrow</h1>
+<p>This short survey explores how people think society should balance three values today and in a possible future society. Please use your own judgement; there are no right or wrong answers.</p></header>
+<main>
+<div class="intro">
+<section class="panel"><span class="pill">About this survey</span><h2>One dot in each triangle</h2>
+<p>Choose one point in each triangle. The closer the point is to a corner, the greater the share given to that value. Your three allocations always add up to 100%.</p>
+<div class="values">
+<div class="value"><b>Corporate control</b><span>Governance, subscription access and AI-managed services.</span></div>
+<div class="value"><b>Environmental protection</b><span>Sustainability, restoration and ecological limits.</span></div>
+<div class="value"><b>Personal freedom</b><span>Autonomy, privacy and independence from corporate systems.</span></div>
+</div></section>
+<aside class="panel"><h2>How to take part</h2><ol><li>Read the three values.</li><li>Click inside the triangle for society today.</li><li>Click inside the triangle for the future society.</li><li>Review the allocations and submit once.</li></ol><p class="notice">This preview lets you try the survey interaction. Responses entered here are saved only in this browser and are not sent to the project team.</p></aside>
+</div>
+<section class="panel"><span class="pill">Your response</span><h2>Place your two points</h2>
+<form id="survey">
+<div class="plotgrid">
+<div class="plotcard"><h3>1 · Society today</h3><p>How should society balance these values today?</p><svg id="present" class="triangle" viewBox="0 0 360 310" role="img" aria-label="Clickable ternary plot for society today"></svg><div id="presentValue" class="small">Click inside the triangle to choose a balance.</div></div>
+<div class="plotcard"><h3>2 · Future society</h3><p>How should society balance these values in the future world described by the project?</p><svg id="future" class="triangle" viewBox="0 0 360 310" role="img" aria-label="Clickable ternary plot for future society"></svg><div id="futureValue" class="small">Click inside the triangle to choose a balance.</div></div>
+</div>
+<div class="notice">Triangle corners: Corporate control (top), Environmental protection (bottom left), Personal freedom (bottom right).</div>
+<label style="display:flex;gap:.7rem;align-items:flex-start;font-weight:400"><input type="checkbox" id="consent" required style="margin-top:.35rem"> I understand that this preview saves my response only in this browser and does not send it to the project team.</label>
+<div class="actions"><button id="submit" type="submit">Submit response</button><button type="button" id="reset" style="background:#e7eee8;color:#234538">Clear choices</button></div>
+<div id="status" class="status" role="status" aria-live="polite">Select a point in both triangles to begin.</div>
+</form></section>
+<footer>Thank you for trying the survey. Responses entered on this page are stored locally in this browser only.</footer>
+</main>
+<script>
+const chosen={present:null,future:null};
+const NS="http://www.w3.org/2000/svg";
+const V={A:{x:180,y:25},B:{x:25,y:285},C:{x:335,y:285}};
+function el(tag,attrs={}){const n=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v));return n}
+function bary(x,y){let den=(V.B.y-V.C.y)*(V.A.x-V.C.x)+(V.C.x-V.B.x)*(V.A.y-V.C.y);let a=((V.B.y-V.C.y)*(x-V.C.x)+(V.C.x-V.B.x)*(y-V.C.y))/den;let b=((V.C.y-V.A.y)*(x-V.C.x)+(V.A.x-V.C.x)*(y-V.C.y))/den;return [a,b,1-a-b]}
+function xy(p){return {x:p[0]*V.A.x+p[1]*V.B.x+p[2]*V.C.x,y:p[0]*V.A.y+p[1]*V.B.y+p[2]*V.C.y}}
+function render(id,key){const s=document.getElementById(id);s.innerHTML="";
+s.append(el("polygon",{points:`${V.A.x},${V.A.y} ${V.B.x},${V.B.y} ${V.C.x},${V.C.y}`,fill:"#f0f4ed",stroke:"#789187","stroke-width":"2"}));
+for(let t of [.2,.4,.6,.8]){
+  let y=V.A.y+(V.B.y-V.A.y)*t, x1=V.A.x+(V.B.x-V.A.x)*t, x2=V.A.x+(V.C.x-V.A.x)*t;
+  s.append(el("line",{x1,y1:y,x2,y2:y,stroke:"#d4ded5","stroke-width":"1"}));
+  let bx=V.B.x+(V.A.x-V.B.x)*t, by=V.B.y+(V.A.y-V.B.y)*t, cx=V.B.x+(V.C.x-V.B.x)*t, cy=V.B.y+(V.C.y-V.B.y)*t;
+  s.append(el("line",{x1:bx,y1:by,x2:cx,y2:cy,stroke:"#d4ded5","stroke-width":"1"}));
+  let dx=V.C.x+(V.A.x-V.C.x)*t, dy=V.C.y+(V.A.y-V.C.y)*t, ex=V.C.x+(V.B.x-V.C.x)*t, ey=V.C.y+(V.B.y-V.C.y)*t;
+  s.append(el("line",{x1:dx,y1:dy,x2:ex,y2:ey,stroke:"#d4ded5","stroke-width":"1"}));
+}
+[["Corporate control",180,14,"middle"],["Environmental protection",18,304,"start"],["Personal freedom",342,304,"end"]].forEach(([t,x,y,a])=>{let tx=el("text",{x,y,"font-size":"11","font-weight":"650",fill:"#29483d","text-anchor":a});tx.textContent=t;s.append(tx)});
+if(chosen[key]){let p=xy(chosen[key]);s.append(el("circle",{cx:p.x,cy:p.y,r:8,fill:"#b96835",stroke:"white","stroke-width":"3"}))}
+}
+function display(key){const names=["Corporate control","Environmental protection","Personal freedom"];const p=chosen[key];document.getElementById(key+"Value").textContent=names.map((n,i)=>`${n}: ${Math.round(p[i]*100)}%`).join(" · ")}
+["present","future"].forEach(key=>{render(key,key);document.getElementById(key).addEventListener("click",e=>{let s=e.currentTarget,r=s.getBoundingClientRect(),x=(e.clientX-r.left)*360/r.width,y=(e.clientY-r.top)*310/r.height,p=bary(x,y);if(p.some(z=>z<-.015))return;p=p.map(z=>Math.max(0,z));let sum=p.reduce((a,b)=>a+b,0);chosen[key]=p.map(z=>z/sum);render(key,key);display(key)})});
+const STORAGE_KEY="values_2060_mock_responses";
+function readRows(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]")}catch(e){return []}}
+document.getElementById("survey").addEventListener("submit",e=>{e.preventDefault();const status=document.getElementById("status");if(!chosen.present||!chosen.future){status.className="status error";status.textContent="Please select a point in both triangles before submitting.";return}
+const row={response_id:"LOCAL-"+Date.now(),data_status:"MOCK_LOCAL_ONLY",present_corporate_control:Math.round(chosen.present[0]*100),present_environmental_protection:Math.round(chosen.present[1]*100),present_personal_freedom:Math.round(chosen.present[2]*100),future_corporate_control:Math.round(chosen.future[0]*100),future_environmental_protection:Math.round(chosen.future[1]*100),future_personal_freedom:Math.round(chosen.future[2]*100)};
+for(const prefix of ["present","future"]){let keys=prefix==="present"?["present_corporate_control","present_environmental_protection","present_personal_freedom"]:["future_corporate_control","future_environmental_protection","future_personal_freedom"];let sum=keys.reduce((s,k)=>s+row[k],0);row[keys[2]]+=100-sum;}
+const rows=readRows();rows.push(row);localStorage.setItem(STORAGE_KEY,JSON.stringify(rows));status.className="status";status.textContent="Your response has been saved in this browser only. It has not been sent to the project team.";document.getElementById("survey").reset();chosen.present=null;chosen.future=null;["present","future"].forEach(k=>{render(k,k);document.getElementById(k+"Value").textContent="Click inside the triangle to choose a balance."})});
+document.getElementById("reset").addEventListener("click",()=>{chosen.present=null;chosen.future=null;["present","future"].forEach(k=>{render(k,k);document.getElementById(k+"Value").textContent="Click inside the triangle to choose a balance."});document.getElementById("status").textContent="Choices cleared. Select a point in both triangles."});
+</script></body></html>
