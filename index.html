@@ -55,8 +55,8 @@ button{border:0;border-radius:999px;padding:.9rem 1.3rem;background:var(--accent
 <script>
 /* Setup: fill in SUPABASE_URL and SUPABASE_ANON_KEY after creating the project.
    This client-side key is intended to be public; security must be enforced by RLS/RPC in SQL. */
-const SUPABASE_URL = "https://lzwqmlcjcdasbalmlgjj.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_rLys2QLfYl_bVpn-mFC_pQ_72wzBMeq";
+const SUPABASE_URL = "";
+const SUPABASE_ANON_KEY = "";
 const vals = {corporate_control:null, environmental_protection:null, personal_freedom:null};
 const chosen={present:null,future:null};
 const NS="http://www.w3.org/2000/svg";
@@ -75,12 +75,7 @@ s.addEventListener("click",e=>{let r=s.getBoundingClientRect(),x=(e.clientX-r.le
 render("present","present");render("future","future");
 document.getElementById("survey").addEventListener("submit",async e=>{e.preventDefault();const status=document.getElementById("status"),btn=document.getElementById("submit");if(!chosen.present||!chosen.future){status.className="status error";status.textContent="Please select a point on both plots.";return}if(!SUPABASE_URL||!SUPABASE_ANON_KEY){status.className="status error";status.textContent="Not live yet: the project team must configure Supabase and deploy the SQL setup before responses can be collected.";return}
 btn.disabled=true;status.className="status";status.textContent="Submitting securely…";
-try{const response=await fetch(SUPABASE_URL+"/rest/v1/rpc/submit_value_pair",{method:"POST",
-headers: {
-  "Content-Type": "application/json",
-  "apikey": SUPABASE_ANON_KEY,
-  "Authorization": "Bearer " + SUPABASE_ANON_KEY
-},body:JSON.stringify({p_access_code:document.getElementById("accessCode").value.trim(),p_present:chosen.present,p_future:chosen.future})});
+try{const response=await fetch(SUPABASE_URL+"/rest/v1/rpc/submit_value_pair",{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_ANON_KEY,"Authorization":"Bearer "+SUPABASE_ANON_KEY},body:JSON.stringify({p_access_code:document.getElementById("accessCode").value.trim(),p_present:chosen.present,p_future:chosen.future})});
 const data=await response.json();if(!response.ok)throw new Error(data.message||data.details||"Submission failed");status.textContent="Thank you — your response has been recorded.";document.getElementById("survey").reset();chosen.present=null;chosen.future=null;render("present","present");render("future","future");document.getElementById("presentValue").textContent="Select a point inside the triangle.";document.getElementById("futureValue").textContent="Select a point inside the triangle.";
 }catch(err){status.className="status error";status.textContent="We couldn't record this response: "+err.message+". Check your access code or contact the project team."}finally{btn.disabled=false}});
 </script></body></html>
