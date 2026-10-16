@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MIS20070 | Values Survey</title>
+<style>
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#182230;background:#f4f6fa}
+*{box-sizing:border-box}body{margin:0}.wrap{max-width:820px;margin:0 auto;padding:24px 16px 48px}
+header,.panel{background:white;border:1px solid #e1e6ee;border-radius:16px;padding:22px;margin-bottom:16px}
+.eyebrow{font-size:.82rem;font-weight:750;letter-spacing:.07em;text-transform:uppercase;color:#53647a}
+h1{line-height:1.15;margin:.4rem 0 1rem;font-size:clamp(1.8rem,5vw,2.6rem)}
+h2{font-size:1.2rem;margin-top:0}.intro{color:#4b596b}
+.notice{background:#fff7e6;border:1px solid #f2d69b;border-radius:10px;padding:12px 14px;font-size:.93rem}
+fieldset{border:0;padding:0;margin:0 0 18px}legend{font-weight:750;margin-bottom:8px}
+.help{color:#596579;font-size:.9rem;margin:.25rem 0 .75rem}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+label.value{display:block;background:#f7f9fc;border:1px solid #dce3ed;padding:12px;border-radius:10px}
+label.value span{display:block;font-weight:650;font-size:.9rem;min-height:2.4em}
+input[type=number]{width:100%;padding:10px;margin-top:8px;border:1px solid #c7d0dc;border-radius:8px;font:inherit}
+.total{font-weight:750;margin:10px 0;color:#334155}.total.bad{color:#b42318}.total.good{color:#067647}
+button,.button{display:inline-block;border:0;border-radius:9px;padding:12px 16px;background:#174ea6;color:white;font:inherit;font-weight:750;cursor:pointer;text-decoration:none}
+button.secondary{background:#e8edf5;color:#24344b}.actions{display:flex;flex-wrap:wrap;gap:10px}
+.status{margin-top:14px;padding:12px;border-radius:9px;display:none}.status.show{display:block}.status.ok{background:#eaf7ee;color:#14532d}.status.err{background:#fff0f0;color:#9b1c1c}
+.small{font-size:.88rem;color:#5b6575}
+hr{border:0;border-top:1px solid #e1e6ee;margin:18px 0}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.value span{min-height:0!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">MIS20070 Digital Society · Section 2</div>
+  <h1>Present and Future Values Survey</h1>
+  <p class="intro">Allocate 100 points across the three values for the present, then make the same allocation for the future world described by your project team. Your allocations show the relative importance you place on each value.</p>
+  <div class="notice"><strong>Demo mode:</strong> this page stores submissions only in this browser on this device. It does not send data to a shared database and cannot collect a class-wide dataset. Use it to test the interface only. For real responses, link this page to your published Microsoft Form.</div>
+</header>
+
+<form id="survey" class="panel">
+  <h2>Your allocations</h2>
+  <p class="small">For each set, enter numbers from 0 to 100. Each set must total exactly 100. Replace the labels below with the final three values selected by your group before use.</p>
+  <fieldset>
+    <legend>1. The present</legend>
+    <p class="help">How would you allocate 100 points across these values in society today?</p>
+    <div class="grid">
+      <label class="value"><span>Corporate control</span><input type="number" min="0" max="100" step="1" id="pa" required value="34"></label>
+      <label class="value"><span>Environmental protection</span><input type="number" min="0" max="100" step="1" id="pb" required value="33"></label>
+      <label class="value"><span>Personal freedom</span><input type="number" min="0" max="100" step="1" id="pc" required value="33"></label>
+    </div>
+    <div id="ptotal" class="total">Present total: 100 / 100</div>
+  </fieldset>
+  <fieldset>
+    <legend>2. The future</legend>
+    <p class="help">Using the future world description provided by your group, how would you allocate 100 points across the same values?</p>
+    <div class="grid">
+      <label class="value"><span>Corporate control</span><input type="number" min="0" max="100" step="1" id="fa" required value="34"></label>
+      <label class="value"><span>Environmental protection</span><input type="number" min="0" max="100" step="1" id="fb" required value="33"></label>
+      <label class="value"><span>Personal freedom</span><input type="number" min="0" max="100" step="1" id="fc" required value="33"></label>
+    </div>
+    <div id="ftotal" class="total">Future total: 100 / 100</div>
+  </fieldset>
+  <div class="actions">
+    <button type="submit">Save demo response on this device</button>
+    <button type="button" class="secondary" id="clear">Clear form</button>
+  </div>
+  <div id="status" class="status" role="status" aria-live="polite"></div>
+</form>
+
+<section class="panel">
+  <h2>Demo submissions on this device</h2>
+  <p class="small">These are only local test submissions made in this browser. They are not a substitute for the 50 real participant responses required for the project.</p>
+  <p id="count">Saved demo responses: 0</p>
+  <div class="actions">
+    <button type="button" id="export" class="secondary">Export demo CSV</button>
+    <button type="button" id="reset" class="secondary">Delete demo responses</button>
+  </div>
+</section>
+<footer class="small">For actual data collection, publish a Microsoft Form and replace the form workflow with a link to that form. Keep participants informed about what data is collected and do not collect names or email addresses unless necessary and approved.</footer>
+</div>
+<script>
+const ids = ["pa","pb","pc","fa","fb","fc"];
+const labels = ["Present_A","Present_B","Present_C","Future_A","Future_B","Future_C"];
+const KEY = "mis20070_section2_demo_responses";
+const $ = id => document.getElementById(id);
+function vals(){return ids.map(id => Number($(id).value));}
+function totalOf(start){return ids.slice(start,start+3).reduce((sum,id)=>sum+Number($(id).value||0),0);}
+function updateTotals(){
+  [["ptotal",0,"Present"],["ftotal",3,"Future"]].forEach(([id,start,name])=>{
+    const vals3=ids.slice(start,start+3).map(i=>$(i).value);
+    const total=vals3.reduce((s,v)=>s+Number(v||0),0);
+    const valid=vals3.every(v=>v!=="" && Number(v)>=0 && Number(v)<=100 && Number.isInteger(Number(v)));
+    $(id).textContent=`${name} total: ${total} / 100` + (valid && total===100 ? " ✓" : " — must equal 100");
+    $(id).className="total "+(valid && total===100?"good":"bad");
+  });
+}
+function getRows(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []}}
+function setRows(rows){localStorage.setItem(KEY,JSON.stringify(rows));renderCount()}
+function renderCount(){$("count").textContent="Saved demo responses on this device: "+getRows().length}
+ids.forEach(id=>$(id).addEventListener("input",updateTotals));
+$("survey").addEventListener("submit",e=>{
+  e.preventDefault();
+  const v=vals(), valid=v.every(n=>Number.isInteger(n)&&n>=0&&n<=100);
+  const ok=valid && v.slice(0,3).reduce((a,b)=>a+b,0)===100 && v.slice(3,6).reduce((a,b)=>a+b,0)===100;
+  if(!ok){$("status").textContent="Not saved. Each set of three values must be whole numbers between 0 and 100 and total exactly 100."; $("status").className="status show err";updateTotals();return;}
+  const rows=getRows();rows.push({submitted_at:new Date().toISOString(),...Object.fromEntries(labels.map((k,i)=>[k,v[i]]))});setRows(rows);
+  $("status").textContent="Demo response saved in this browser only. It has NOT been sent to your group or a server.";
+  $("status").className="status show ok";
+});
+$("clear").addEventListener("click",()=>{$("survey").reset();$("status").className="status";updateTotals()});
+$("export").addEventListener("click",()=>{
+ const rows=getRows(); if(!rows.length){alert("No demo responses saved on this device yet.");return;}
+ const cols=["submitted_at",...labels];
+ const csv=[cols.join(","),...rows.map(r=>cols.map(c=>JSON.stringify(r[c]??"")).join(","))].join("\r\n");
+ const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});
+ const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="demo_responses_NOT_REAL_DATA.csv";a.click();URL.revokeObjectURL(a.href);
+});
+$("reset").addEventListener("click",()=>{if(confirm("Delete all demo responses stored in this browser?")){localStorage.removeItem(KEY);renderCount();$("status").textContent="Demo responses deleted."; $("status").className="status show ok";}});
+updateTotals();renderCount();
+</script>
+</body>
+</html>
